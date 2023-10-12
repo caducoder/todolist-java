@@ -7,6 +7,10 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.caducoder.todolist.utils.Utils;
+
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class TaskService {
 
@@ -30,5 +34,14 @@ public class TaskService {
 	
 	public List<TaskModel> findByIdUser(UUID userId) {
 		return taskRepository.findByIdUser(userId);
+	}
+	
+	public TaskModel update(UUID taskId, TaskModel taskUpdated, UUID userId) {
+		TaskModel taskDb = taskRepository.findById(taskId)
+				.orElseThrow(() -> new EntityNotFoundException("Tarefa não encontrada."));
+		
+		Utils.copyNonNullProperties(taskUpdated, taskDb);
+		
+		return taskRepository.save(taskDb);
 	}
 }

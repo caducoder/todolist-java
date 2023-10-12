@@ -1,6 +1,7 @@
 package com.caducoder.todolist.task;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,9 @@ public class TaskService {
 		}
 		
 		return taskRepository.save(taskModel);
+	}
+	
+	public List<TaskModel> findByIdUser(UUID userId) {
+		return taskRepository.findByIdUser(userId);
 	}
 }

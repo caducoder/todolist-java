@@ -16,12 +16,11 @@ import jakarta.servlet.http.HttpServletRequest;
 public class TaskController {
 	
 	@Autowired
-	private ITaskRepository taskRepository;
+	private TaskService taskService;
 
 	@PostMapping
 	public ResponseEntity<TaskModel> createTask(@RequestBody TaskModel taskModel, HttpServletRequest req) {
-		
-		taskModel.setIdUser((UUID) req.getAttribute("idUser"));
-		return ResponseEntity.ok(taskRepository.save(taskModel));
+		UUID userId = (UUID) req.getAttribute("idUser");
+		return ResponseEntity.ok(taskService.create(taskModel, userId));
 	}
 }

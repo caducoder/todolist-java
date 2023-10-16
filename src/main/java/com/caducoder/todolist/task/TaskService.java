@@ -36,9 +36,13 @@ public class TaskService {
 		return taskRepository.findByIdUser(userId);
 	}
 	
-	public TaskModel update(UUID taskId, TaskModel taskUpdated, UUID userId) {
+	public TaskModel update(UUID taskId, TaskModel taskUpdated, UUID userId) throws IllegalAccessException {
 		TaskModel taskDb = taskRepository.findById(taskId)
 				.orElseThrow(() -> new EntityNotFoundException("Tarefa não encontrada."));
+		
+		if(!taskDb.getIdUser().equals(userId)) {
+			throw new IllegalAccessException("Usuário não tem permissão para alterar essa tarefa.");
+		}
 		
 		Utils.copyNonNullProperties(taskUpdated, taskDb);
 		

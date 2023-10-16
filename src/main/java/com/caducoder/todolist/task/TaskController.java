@@ -35,7 +35,7 @@ public class TaskController {
 	}
 	
 	@PutMapping("/{taskId}")
-	public ResponseEntity<TaskModel> update(@RequestBody TaskModel taskModel, HttpServletRequest req, @PathVariable UUID taskId) {
+	public ResponseEntity<TaskModel> update(@RequestBody TaskModel taskModel, HttpServletRequest req, @PathVariable UUID taskId) throws IllegalAccessException {
 		UUID userId = (UUID) req.getAttribute("idUser");
 		return ResponseEntity.ok(taskService.update(taskId, taskModel, userId));
 	}
